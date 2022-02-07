@@ -64,6 +64,37 @@
             <td>$15</td>
           </tr>
         </table>
+        <hr></hr>
+        <h1>Geometry Convex hull</h1>
+        <blockquote cite="https://cp-algorithms.com/geometry/convex-hull.html">
+        <q>Consider N points given on a plane, and the objective is to generate a convex hull, i.e. the smallest convex polygon that contains all the given points.</q>
+        </blockquote>
+        <p>Refer this link for detail study:</p>
+        <a href="https://cp-algorithms.com/geometry/convex-hull.html">Algorithm link</a>
+        <pre>
+          struct pt {
+            double x, y;
+        };
+        int orientation(pt a, pt b, pt c) {
+            double v = a.x*(b.y-c.y)+b.x*(c.y-a.y)+c.x*(a.y-b.y);
+            if (v<0) return -1; 
+            if (v>0) return +1;
+            return 0;
+        }
+        bool collinear(pt a, pt b, pt c) { return orientation(a, b, c)==0; }
+        void convex_hull(vector<pt>& a, bool include_collinear = false) {
+            pt p0 = *min_element(a.begin(), a.end(), [](pt a, pt b) {
+                return make_pair(a.y, a.x)<make_pair(b.y, b.x);
+            });
+            if (include_collinear) {
+                int i=(int)a.size()-1;
+                while (i >= 0 && collinear(p0, a[i], a.back())) i--;
+                reverse(a.begin()+i+1, a.end());
+            }
+            a = st;
+        }
+        </pre>
+      </body>
   </body>
 </html>
 
